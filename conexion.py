@@ -6,7 +6,10 @@ import os
 from datetime import datetime
 import xmltodict
 import json
+from io import StringIO
 import xml.etree.ElementTree as ET
+import lxml.etree as le
+
 
 """Vrear conexión con mongo"""
 ##con = pymongo.MongoClient()
@@ -26,14 +29,15 @@ contenido = os.listdir("/home/fernanda/Documents/Bases/Proyecto3/reuters21578")
 """Leer archivos xml"""
 path= "/home/fernanda/Documents/Bases/Proyecto3/reuters21578"
 contenido = os.listdir("/home/fernanda/Documents/Bases/Proyecto3/reuters21578")
-
 for filename in contenido:
     archivo=os.path.join(path,filename)
-    with open(archivo, "r",encoding='utf-8', errors='ignore') as f:
+    with open(archivo,encoding='utf-8', errors='ignore') as f:
+        xmlreader=f.read()
+        jsonString = json.dumps(xmltodict.parse(xmlreader), indent=4)
 ##Se supone que con esto se convierte a jason, solo que hay que quitar los espacios
  #Unknown y companies de los archivos
  #Esto porque tienen datos irrelevantes y caracteres invalidos       
-        doc=xmltodict.parse(f.read())
-        j=json.dumps(doc)
+        #doc=xmltodict.parse(f.read())
+        #j=json.dumps(doc)
   
     
