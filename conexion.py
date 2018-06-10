@@ -19,12 +19,16 @@ import xml.etree.ElementTree as ET
 
 
 """Leer archivos xml"""
-path= "/home/fernanda/Documents/Bases/Proyecto3/reuters21578"
-contenido = os.listdir("/home/fernanda/Documents/Bases/Proyecto3/reuters21578")
+path= "/home/fernanda/Desktop"
+archivo=os.path.join(path,"prueba1.xml")
 
+with open(archivo,encoding='utf-8', errors='ignore') as f:
+    xmlreader=f.read()
+    doc=xmltodict.parse(xmlreader)
+    jsonString = json.dumps(xmltodict.parse(xmlreader), indent=4)
+    print(jsonString)
 
-
-"""Leer archivos xml"""
+"""
 path= "/home/fernanda/Documents/Bases/Proyecto3/reuters21578"
 contenido = os.listdir("/home/fernanda/Documents/Bases/Proyecto3/reuters21578")
 for filename in contenido:
@@ -40,7 +44,7 @@ for filename in contenido:
        # jsonString = json.dumps(xmltodict.parse(xmlreader), indent=4)
 ##Se supone que con esto se convierte a jason, solo que hay que quitar los espacios
  #Unknown y companies de los archivos
- #Esto porque tienen datos irrelevantes y caracteres invalidos       
+ #Esto porque tienen datos irrelevantes y caracteres invalidos    """   
         
   
     
