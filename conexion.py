@@ -48,7 +48,8 @@ def cleanList(i,Key):
             temp = i[Key]['D']
             del i[Key]['D']
             i.update({Key:temp})
-    
+
+#print(archivo)
 with open(archivo,encoding='utf-8', errors='ignore') as f:
     xmlreader=f.read()
     doc=xmltodict.parse(xmlreader)
@@ -63,12 +64,11 @@ with open(archivo,encoding='utf-8', errors='ignore') as f:
         cleanList(i,'PEOPLE')
         cleanList(i,'ORGS')
         cleanList(i,'EXCHANGES')
-        
+            
 
     jsonString = json.dumps(doc, indent=4)
     print(jsonString)
-
 ####mongoimport --db db --collection db --file E:\Desktop\test.json --jsonArray
-        
+####for archivo in os.listdir(path):
   
     
