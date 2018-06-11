@@ -19,13 +19,22 @@ import xml.etree.ElementTree as ET
 
 
 """Leer archivos xml"""
-path= "/home/fernanda/Desktop"
-archivo=os.path.join(path,"prueba1.xml")
+#path= "/home/fernanda/Desktop"
+#archivo=os.path.join(path,"prueba1.xml")
+
+path= "E:\Desktop\proyecto3_mongo\\reuters21578"
+archivo=os.path.join(path,"test.xml")
 
 with open(archivo,encoding='utf-8', errors='ignore') as f:
     xmlreader=f.read()
     doc=xmltodict.parse(xmlreader)
-    jsonString = json.dumps(xmltodict.parse(xmlreader), indent=4)
+    doc = doc['COLLECTION']
+    for i in doc['REUTERS']:
+        if 'MKNOTE' in i:
+            del i['MKNOTE']
+        if 'UNKNOWN' in i:
+            del i['UNKNOWN']
+    jsonString = json.dumps(doc, indent=4)
     print(jsonString)
 
 """
