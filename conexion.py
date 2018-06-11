@@ -27,7 +27,7 @@ archivo=os.path.join(path,"test.xml")
 
 '''
 ##cleanList: ajusta los valores multiples de los documentos REUTERS
-##input i: Documento REUTERS
+##input i: Documento REUTERS como ordereddict
 ##input Key: Nombre del campo a ajustar
 ej.
  "PLACES": {
@@ -52,8 +52,8 @@ def cleanList(i,Key):
 with open(archivo,encoding='utf-8', errors='ignore') as f:
     xmlreader=f.read()
     doc=xmltodict.parse(xmlreader)
-    doc = doc['COLLECTION']
-    for i in doc['REUTERS']:
+    doc = doc['COLLECTION']['REUTERS']
+    for i in doc:
         if 'MKNOTE' in i:
             del i['MKNOTE']
         if 'UNKNOWN' in i:
@@ -68,23 +68,7 @@ with open(archivo,encoding='utf-8', errors='ignore') as f:
     jsonString = json.dumps(doc, indent=4)
     print(jsonString)
 
-"""
-path= "/home/fernanda/Documents/Bases/Proyecto3/reuters21578"
-contenido = os.listdir("/home/fernanda/Documents/Bases/Proyecto3/reuters21578")
-for filename in contenido:
-    archivo=os.path.join(path,filename)
-    with open(archivo,encoding='utf-8', errors='ignore') as f:
-        xmlreader=f.read()
-        try:
-            doc=xmltodict.parse(xmlreader)
-            j=json.dumps(doc)
-            print(j)
-        except (ET.ParseError):
-            print ("error on row", "column" )
-       # jsonString = json.dumps(xmltodict.parse(xmlreader), indent=4)
-##Se supone que con esto se convierte a jason, solo que hay que quitar los espacios
- #Unknown y companies de los archivos
- #Esto porque tienen datos irrelevantes y caracteres invalidos    """   
+####mongoimport --db db --collection db --file E:\Desktop\test.json --jsonArray
         
   
     
