@@ -39,26 +39,26 @@ def busqueda1(base):
 def xmlTOjson(path,contenido,base):
     documentos=[]
     for filename in contenido:
-        archivo=os.path.join(path,filename)
-        with open(archivo,encoding='utf-8', errors='ignore') as f:
-            xmlreader=f.read()
-            doc=xmltodict.parse(xmlreader)
-            doc = doc['COLLECTION']['REUTERS']
-            for i in doc:
-                if 'MKNOTE' in i:
-                    del i['MKNOTE']
-                if 'UNKNOWN' in i:
-                    del i['UNKNOWN']
-                cleanList(i,'PLACES')
-                cleanList(i,'TOPICS')
-                cleanList(i,'PEOPLE')
-                cleanList(i,'ORGS')
-                cleanList(i,'EXCHANGES')
-            
-
-            jsonString = json.dumps(doc, indent=4)
-            parsed=json.loads(jsonString)
-            base.insert(parsed)
+        if filename.endswith('.xml'):
+            archivo=os.path.join(path,filename)
+            with open(archivo,encoding='utf-8', errors='ignore') as f:
+                xmlreader=f.read()
+                doc=xmltodict.parse(xmlreader)
+                doc = doc['COLLECTION']['REUTERS']
+                for i in doc:
+                    if 'MKNOTE' in i:
+                        del i['MKNOTE']
+                    if 'UNKNOWN' in i:
+                        del i['UNKNOWN']
+                    cleanList(i,'PLACES')
+                    cleanList(i,'TOPICS')
+                    cleanList(i,'PEOPLE')
+                    cleanList(i,'ORGS')
+                    cleanList(i,'EXCHANGES')
+                
+                jsonString = json.dumps(doc, indent=4)
+                parsed=json.loads(jsonString)
+                base.insert(parsed)
     print("Datos cargados.")
     return documentos
 
