@@ -29,12 +29,13 @@ def cleanList(i,Key):
             del i[Key]['D']
             i.update({Key:temp})
 
-
+#en consola mongoDB es: db.[Nombre de la coleccion].find({'TOPICS': 'sugar','PLACES': 'indonesia'},{ '_id': 0, '@NEWID': 1, 'TEXT.TITLE':1}) 
 def busqueda1(base):
     print('\n',"======= Busqueda 1: TOPICS que contienen sugar, PLACES que contienen indonesia =======", '\n', '------------------------------------------------------' )
     query = base.find({'TOPICS': 'sugar','PLACES': 'indonesia'},{ '_id': 0, '@NEWID': 1, 'TEXT.TITLE':1})
     for x in query:
         print(x['@NEWID'], ": ", x['TEXT']['TITLE'], '\n', '------------------------------------------------------' )
+#en consola mongoDB es: db.[Nombre de la coleccion].find({ '$text': { '$search': "\"coffee\" \"colombia\"" } },{ '_id': 0,  '@NEWID': 1, 'TEXT.TITLE':1})
 def busqueda2(base):
     print('\n',"======= Busqueda 2: BODY que contienen colombia y coffee =======", '\n', '------------------------------------------------------' )
     query = base.find({ '$text': { '$search': "\"coffee\" \"colombia\"" } },{ '_id': 0,  '@NEWID': 1, 'TEXT.TITLE':1})
