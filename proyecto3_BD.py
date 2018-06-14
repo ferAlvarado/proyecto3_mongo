@@ -50,6 +50,7 @@ def xmlTOjson(path,contenido,base):
             jsonString = json.dumps(doc, indent=4)
             parsed=json.loads(jsonString)
             base.insert(parsed)
+            print("Datos cargados.")
     return documentos
 
 def crearIndices(base):
