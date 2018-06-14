@@ -31,6 +31,7 @@ def cleanList(i,Key):
 
 """Leer archivos xml"""
 def busqueda1(base):
+    print("======= Busqueda 1: TOPICS que contienen sugar, PLACES que contienen indonesia =======")
     query = base.find({'TOPICS': 'sugar','PLACES': 'indonesia'})
     for x in query:
         print(x['@NEWID'], ": ", x['TEXT']['TITLE'], '\n', '------------------------------------------------------' )
@@ -58,7 +59,7 @@ def xmlTOjson(path,contenido,base):
             jsonString = json.dumps(doc, indent=4)
             parsed=json.loads(jsonString)
             base.insert(parsed)
-            print("Datos cargados.")
+    print("Datos cargados.")
     return documentos
 
 def crearIndices(base):
