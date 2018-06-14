@@ -58,16 +58,19 @@ def crearIndices(base):
     base.create_index([("PEOPLE",pymongo.ASCENDING)])
     base.create_index([("ORGS",pymongo.ASCENDING)])
     base.create_index([("EXCHANGES",pymongo.ASCENDING)])
-    base.create_index([("TITLE",pymongo.TEXT)])
-    base.create_index([("BODY",pymongo.TEXT)])
-    
-#"/home/fernanda/Documents/Bases/Proyecto3/reuters21578"
+    base.create_index([("TITLE",pymongo.TEXT),("BODY",pymongo.TEXT)])
+    print("Indices creados")
+        
+    #"/home/fernanda/Documents/Bases/Proyecto3/reuters21578"
 
 def main(ruta):
     path= ruta
     contenido = os.listdir(ruta)
-    record1=conexionBD()
-    documentos= xmlTOjson(path,contenido,record1)
-    print("Carga terminada")
-    crearIndices(record1)
-    print("Indices creados")
+    try:
+        DBconn=conexionBD()
+        documentos= xmlTOjson(path,contenido,DBconn)
+        crearIndices(DBconn)
+    except:
+        print("Error: coleccion con ese nombre ya existe")
+
+#main('E:\\Desktop\\proyecto3_mongo\\reuters21578')
