@@ -29,10 +29,15 @@ def cleanList(i,Key):
             del i[Key]['D']
             i.update({Key:temp})
 
-"""Leer archivos xml"""
+
 def busqueda1(base):
-    print("======= Busqueda 1: TOPICS que contienen sugar, PLACES que contienen indonesia =======")
+    print('\n',"======= Busqueda 1: TOPICS que contienen sugar, PLACES que contienen indonesia =======", '\n', '------------------------------------------------------' )
     query = base.find({'TOPICS': 'sugar','PLACES': 'indonesia'})
+    for x in query:
+        print(x['@NEWID'], ": ", x['TEXT']['TITLE'], '\n', '------------------------------------------------------' )
+def busqueda2(base):
+    print('\n',"======= Busqueda 2: BODY que contienen colombia y coffee =======", '\n', '------------------------------------------------------' )
+    query = base.find({ '$text': { '$search': "\"coffee\" \"colombia\"" } })
     for x in query:
         print(x['@NEWID'], ": ", x['TEXT']['TITLE'], '\n', '------------------------------------------------------' )
 
@@ -68,7 +73,7 @@ def crearIndices(base):
     base.create_index([("PEOPLE",pymongo.ASCENDING)])
     base.create_index([("ORGS",pymongo.ASCENDING)])
     base.create_index([("EXCHANGES",pymongo.ASCENDING)])
-    base.create_index([("TITLE",pymongo.TEXT),("BODY",pymongo.TEXT)])
+    base.create_index([("TEXT.TITLE",pymongo.TEXT),("TEXT.BODY",pymongo.TEXT)])
     print("Indices creados")
         
     #"/home/fernanda/Documents/Bases/Proyecto3/reuters21578"
@@ -85,5 +90,6 @@ def main(ruta):
         print("Coleccion con ese nombre ya existe")
         DBconn = conexionBDexistente(nombre_coleccion)
     busqueda1(DBconn)
+    busqueda2(DBconn)
 
 main('E:\\Desktop\\proyecto3_mongo\\reuters21578')
