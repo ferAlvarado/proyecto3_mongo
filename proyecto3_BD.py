@@ -11,11 +11,15 @@ import xml.etree.ElementTree as ET
 
 """Crear conexión con mongo"""
 
-def conexionBD():
+def conexionBD(nombre_coleccion):
     con = pymongo.MongoClient()
     db=con.proyecto3
-    nombre_coleccion=input("Ingrese el nombre de la coleccion: ")
     record1=db.create_collection(nombre_coleccion)
+    return record1
+def conexionBDexistente(nombre_coleccion):
+    con = pymongo.MongoClient()
+    db=con.proyecto3
+    record1= pymongo.collection.Collection(db, nombre_coleccion)
     return record1
 
 def cleanList(i,Key):
@@ -26,6 +30,10 @@ def cleanList(i,Key):
             i.update({Key:temp})
 
 """Leer archivos xml"""
+def busqueda1(base):
+    query = base.find({'TOPICS': 'sugar','PLACES': 'indonesia'})
+    for x in query:
+        print(x['@NEWID'], ": ", x['TEXT']['TITLE'], '\n', '------------------------------------------------------' )
 
 def xmlTOjson(path,contenido,base):
     documentos=[]
@@ -67,11 +75,14 @@ def crearIndices(base):
 def main(ruta):
     path= ruta
     contenido = os.listdir(ruta)
+    nombre_coleccion=input("Ingrese el nombre de la coleccion: ")
     try:
-        DBconn=conexionBD()
+        DBconn=conexionBD(nombre_coleccion)
         documentos= xmlTOjson(path,contenido,DBconn)
         crearIndices(DBconn)
     except:
         print("Error: coleccion con ese nombre ya existe")
+        DBconn = conexionBDexistente(nombre_coleccion)
+    busqueda1(DBconn)
 
-#main('E:\\Desktop\\proyecto3_mongo\\reuters21578')
+main('E:\\Desktop\\proyecto3_mongo\\reuters21578')
