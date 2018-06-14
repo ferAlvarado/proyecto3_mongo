@@ -82,7 +82,7 @@ def main(ruta):
         documentos= xmlTOjson(path,contenido,DBconn)
         crearIndices(DBconn)
     except:
-        print("Error: coleccion con ese nombre ya existe")
+        print("Coleccion con ese nombre ya existe")
         DBconn = conexionBDexistente(nombre_coleccion)
     busqueda1(DBconn)
 
