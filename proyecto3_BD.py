@@ -32,12 +32,12 @@ def cleanList(i,Key):
 
 def busqueda1(base):
     print('\n',"======= Busqueda 1: TOPICS que contienen sugar, PLACES que contienen indonesia =======", '\n', '------------------------------------------------------' )
-    query = base.find({'TOPICS': 'sugar','PLACES': 'indonesia'})
+    query = base.find({'TOPICS': 'sugar','PLACES': 'indonesia'},{ '_id': 0, '@NEWID': 1, 'TEXT.TITLE':1})
     for x in query:
         print(x['@NEWID'], ": ", x['TEXT']['TITLE'], '\n', '------------------------------------------------------' )
 def busqueda2(base):
     print('\n',"======= Busqueda 2: BODY que contienen colombia y coffee =======", '\n', '------------------------------------------------------' )
-    query = base.find({ '$text': { '$search': "\"coffee\" \"colombia\"" } })
+    query = base.find({ '$text': { '$search': "\"coffee\" \"colombia\"" } },{ '_id': 0,  '@NEWID': 1, 'TEXT.TITLE':1})
     for x in query:
         print(x['@NEWID'], ": ", x['TEXT']['TITLE'], '\n', '------------------------------------------------------' )
 
