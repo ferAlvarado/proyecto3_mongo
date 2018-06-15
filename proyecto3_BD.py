@@ -10,7 +10,6 @@ from io import StringIO
 import xml.etree.ElementTree as ET
 
 """Crear conexión con mongo"""
-
 def conexionBD(nombre_coleccion):
     con = pymongo.MongoClient()
     db=con.proyecto3
@@ -22,6 +21,7 @@ def conexionBDexistente(nombre_coleccion):
     record1= pymongo.collection.Collection(db, nombre_coleccion)
     return record1
 
+''' extrae los datos del array llamado D'''
 def cleanList(i,Key):
     if i[Key] is not None:
         if 'D' in i[Key]:
@@ -42,6 +42,7 @@ def busqueda2(base):
     for x in query:
         print(x['@NEWID'], ": ", x['TEXT']['TITLE'], '\n', '------------------------------------------------------' )
 
+'''funcion que lee los archivos xml y los carga a mongodb'''
 def xmlTOjson(path,contenido,base):
     documentos=[]
     for filename in contenido:
@@ -68,6 +69,7 @@ def xmlTOjson(path,contenido,base):
     print("Datos cargados.")
     return documentos
 
+'''crea indices para los campos solicitados en la coleccion '''
 def crearIndices(base):
     base.create_index([("TOPICS",pymongo.ASCENDING)])
     base.create_index([("PLACES",pymongo.ASCENDING)])
@@ -77,7 +79,6 @@ def crearIndices(base):
     base.create_index([("TEXT.TITLE",pymongo.TEXT),("TEXT.BODY",pymongo.TEXT)])
     print("Indices creados")
         
-    #"/home/fernanda/Documents/Bases/Proyecto3/reuters21578"
 
 def main(ruta):
     path= ruta
@@ -86,11 +87,11 @@ def main(ruta):
     try:
         DBconn=conexionBD(nombre_coleccion)
         documentos= xmlTOjson(path,contenido,DBconn)
-        crearIndices(DBconn)
     except:
-        print("Coleccion con ese nombre ya existe")
+        print("Coleccion con ese nombre ya existe, corriendo busquedas")
         DBconn = conexionBDexistente(nombre_coleccion)
+    crearIndices(DBconn)
     busqueda1(DBconn)
     busqueda2(DBconn)
-
-main('E:\\Desktop\\proyecto3_mongo\\reuters21578')
+    
+#main('E:\\Desktop\\proyecto3_mongo\\reuters21578')
