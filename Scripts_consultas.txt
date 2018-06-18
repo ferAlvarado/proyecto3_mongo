@@ -2,12 +2,12 @@
 
 == Busqueda 1: TOPICS que contienen sugar, PLACES que contienen indonesia ==
 
-db.coleccion.find({'TOPICS': 'sugar','PLACES': 'indonesia'},{ '_id': 0, '@NEWID': 1, 'TEXT.TITLE':1}
+db.reuters.find({'TOPICS': 'sugar','PLACES': 'indonesia'},{ '_id': 0, '@NEWID': 1, 'TEXT.TITLE':1}
 
 == Busqueda 2: BODY que contienen colombia y coffee ==
 
-db.coleccion.find({ '$text': { '$search': "\"coffee\" \"colombia\"" } },{ '_id': 0,  '@NEWID': 1, 'TEXT.TITLE':1})
+db.reuters.find({ '$text': { '$search': "\"coffee\" \"colombia\"" } },{ '_id': 0,  '@NEWID': 1, 'TEXT.TITLE':1})
 
 == Operacion adicional, contar la frecuencia de cada valor del campo PLACES==
 
-db.coleccion.mapReduce(function () {var mkeys = ['PLACES'];var test_data = this.PLACES;mkeys.forEach(function(k) {test_data[k].forEach(function(data) {emit( data.index, 1 );});});},function(key,values) {return Array.sum( values );},{ "out": { "inline": 1 } })
+db.reuters.mapReduce( function () {if (this.PLACES != null){if ( typeof this.PLACES == 'string'){emit(this.PLACES, 1)}else{for(var i = 0, imax = this.PLACES.length; i<imax; i++) {emit(this.PLACES[i], 1);}}}}, function(key,values) {return Array.sum(values);}, {out: {inline: 1}});

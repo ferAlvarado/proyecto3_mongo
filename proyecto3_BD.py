@@ -94,4 +94,4 @@ def main(ruta):
     busqueda1(DBconn)
     busqueda2(DBconn)
     
-#main('E:\\Desktop\\proyecto3_mongo\\reuters21578')
+main('C:\\Users\\Alejandro\\Desktop\\proyecto3_mongo\\reuters21578')
